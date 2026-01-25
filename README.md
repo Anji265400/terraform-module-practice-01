@@ -13,7 +13,7 @@ This repository contains modular Terraform configuration for deploying Azure inf
 
 
 ## 📁 Project Structure
-
+```
 terraform-module-practice/
 ├── modules/
 │ ├── network/
@@ -34,7 +34,7 @@ terraform-module-practice/
 │ └── terraform.tfvars # Variables (NOT in git)
 ├── .gitignore # Git ignore rules
 └── README.md
-
+```
 
 ## 🔐 Security Features
 
