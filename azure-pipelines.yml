@@ -17,17 +17,20 @@ steps:
   displayName: "Verify Terraform"
 
 - script: |
-    terraform init \
-      -backend-config="storage_account_name=$(testaccountsampltf)" \
-      -backend-config="container_name=$(sampletfcontainer)" \
-      -backend-config="key=$(terraform.tfstate)" \
-      -backend-config="rg_name=$(test-rg)"
-  displayName: 'Terraform Init'
+    cd $(Build.SourcesDirectory)
+    terraform init -backend-config="storage_account_name=$(testaccountsampltf)" \
+                   -backend-config="container_name=$(sampletfcontainer)" \
+                   -backend-config="key=terraform.tfstate" \
+                   -backend-config="resource_group_name=$(test-rg)"
+    terraform destroy -var-file=terraform/envs/dev/terraform.tfvars -auto-approve
+  displayName: 'Terraform Destroy'
 
 
 # Terraform destroy
-- script: terraform destroy -var-file=terraform/envs/dev/terraform.tfvars -auto-approve
-  displayName: 'Terraform Destroy'
+- script: |
+    cd $(Build.SourcesDirectory)
+    terraform destroy -var-file=terraform/envs/dev/terraform.tfvars -auto-approve
+  displayName: "Terraform Destroy"
 
 
 
