@@ -1,6 +1,6 @@
 data "azurerm_key_vault" "example" {
-  name                = "testkvn2654"
-  resource_group_name = "testrg_kv"
+  name                = "testkv-name"
+  resource_group_name = "test_rgkv"
 }
 
 data "azurerm_key_vault_secret" "example" {

@@ -53,5 +53,5 @@ variable "ssh_public_key" {
 variable "computer_name" {
   type        = string
   description = "The computer name of the Virtual Machine."
-  
+
 }

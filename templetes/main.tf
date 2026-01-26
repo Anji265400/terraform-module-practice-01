@@ -25,5 +25,5 @@ module "vm" {
   subnet_id       = module.network.subnet_id
   public_ip_id    = module.network.public_ip_id
   ssh_public_key  = var.ssh_public_key
-  computer_name  = "${var.computer_name}-${terraform.workspace}-Vm"
+  computer_name   = "${var.computer_name}-${terraform.workspace}-Vm"
 }
