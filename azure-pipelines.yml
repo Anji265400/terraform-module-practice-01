@@ -21,7 +21,7 @@ steps:
   inputs:
     provider: azurerm
     command: init
-    workingDirectory: 'terraform-module-practice-01'
+    workingDirectory: $(Build.SourcesDirectory)/templetes
     backendServiceArm: 'new_sv_connection'
     backendAzureRmResourceGroupName: 'test-rg'
     backendAzureRmStorageAccountName: 'testaccountsampltf'
@@ -33,7 +33,7 @@ steps:
   inputs:
     provider: azurerm
     command: plan
-    workingDirectory: 'terraform-module-practice-01'
+    workingDirectory: $(Build.SourcesDirectory)/templetes
     environmentServiceNameAzureRM: 'new_sv_connection'
 
 - task: TerraformTask@5
@@ -41,6 +41,6 @@ steps:
   inputs:
     provider: azurerm
     command: apply
-    workingDirectory: 'terraform-module-practice-01'
+    workingDirectory: $(Build.SourcesDirectory)/templetes
     environmentServiceNameAzureRM: 'new_sv_connection'
     commandOptions: '--auto-approve'
