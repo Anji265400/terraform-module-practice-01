@@ -20,13 +20,13 @@ steps:
     terraform init \
       -backend-config="storage_account_name=$(testaccountsampltf)" \
       -backend-config="container_name=$(sampletfcontainer)" \
-      -backend-config="key=$(terraform.tfvars)" \
+      -backend-config="key=$(terraform.tfstate)" \
       -backend-config="rg_name=$(test-rg)"
   displayName: 'Terraform Init'
 
 
 # Terraform destroy
-- script: terraform destroy -auto-approve
+- script: terraform destroy -var-file=terraform.tfvars -auto-approve
   displayName: 'Terraform Destroy'
 
 
