@@ -26,8 +26,10 @@ steps:
 
 
 # Terraform destroy
-- script: terraform destroy -var-file=terraform.tfvars -auto-approve
+- script: terraform destroy -var-file=terraform/envs/dev/terraform.tfvars -auto-approve
   displayName: 'Terraform Destroy'
+
+
 
 
 #- task: TerraformTask@5
