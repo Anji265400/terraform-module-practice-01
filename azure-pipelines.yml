@@ -10,52 +10,37 @@ pool:
   name: Default
 
 steps:
-
 - checkout: self
 
-# Step 2: Install Terraform
-- task: TerraformInstaller@1
-  displayName: 'Install Terraform 1.14.3'
-  inputs:
-    terraformVersion: '1.14.3'
+- script: |
+    terraform version
+  displayName: "Verify Terraform"
 
-# Terraform Init
 - task: TerraformTask@5
-  displayName: 'Terraform Init'
+  displayName: Terraform Init
   inputs:
-    provider: 'azurerm'
-    command: 'init'
-    terraformVersion: '1.14.3'
-    workingDirectory: 'terraform-module-practice-01/templetes' 
+    provider: azurerm
+    command: init
+    workingDirectory: 'terraform-module-practice-01'
     backendServiceArm: 'new_sv_connection'
     backendAzureRmResourceGroupName: 'test-rg'
     backendAzureRmStorageAccountName: 'testaccountsampltf'
     backendAzureRmContainerName: 'sampletfcontainer'
     backendAzureRmKey: 'terraform.tfstate'
 
-# Terraform Plan
 - task: TerraformTask@5
-  displayName: 'Terraform Plan'
+  displayName: Terraform Plan
   inputs:
-    provider: 'azurerm'
-    command: 'plan'
-    terraformVersion: '1.14.3'
-    workingDirectory: 'terraform-module-practice-01/templetes' 
+    provider: azurerm
+    command: plan
+    workingDirectory: 'terraform-module-practice-01'
     environmentServiceNameAzureRM: 'new_sv_connection'
 
-# Terraform Apply
 - task: TerraformTask@5
-  displayName: 'Terraform Apply'
+  displayName: Terraform Apply
   inputs:
-    provider: 'azurerm'
-    command: 'apply'
-    terraformVersion: '1.14.3'
-    workingDirectory: 'terraform-module-practice-01/templetes'
+    provider: azurerm
+    command: apply
+    workingDirectory: 'terraform-module-practice-01'
     environmentServiceNameAzureRM: 'new_sv_connection'
     commandOptions: '--auto-approve'
-
-
-
-
-
-
