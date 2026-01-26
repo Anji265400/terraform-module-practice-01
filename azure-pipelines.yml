@@ -26,7 +26,7 @@ steps:
     provider: 'azurerm'
     command: 'init'
     terraformVersion: '1.14.3'
-    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    workingDirectory: 'terraform-module-practice-01/templetes' 
     backendServiceArm: 'new_sv_connection'
     backendAzureRmResourceGroupName: 'test-rg'
     backendAzureRmStorageAccountName: 'testaccountsampltf'
@@ -40,7 +40,7 @@ steps:
     provider: 'azurerm'
     command: 'plan'
     terraformVersion: '1.14.3'
-    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    workingDirectory: 'terraform-module-practice-01/templetes' 
     environmentServiceNameAzureRM: 'new_sv_connection'
 
 # Terraform Apply
@@ -50,7 +50,7 @@ steps:
     provider: 'azurerm'
     command: 'apply'
     terraformVersion: '1.14.3'
-    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    workingDirectory: 'terraform-module-practice-01/templetes'
     environmentServiceNameAzureRM: 'new_sv_connection'
     commandOptions: '--auto-approve'
 
