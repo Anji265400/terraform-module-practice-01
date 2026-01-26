@@ -16,32 +16,47 @@ steps:
     terraform version
   displayName: "Verify Terraform"
 
-- task: TerraformTask@5
-  displayName: Terraform Init
-  inputs:
-    provider: azurerm
-    command: init
-    commandOptions: '-reconfigure'
-    workingDirectory: $(Build.SourcesDirectory)/templetes
-    backendServiceArm: 'new_sv_connection'
-    backendAzureRmResourceGroupName: 'test-rg'
-    backendAzureRmStorageAccountName: 'testaccountsampltf'
-    backendAzureRmContainerName: 'sampletfcontainer'
-    backendAzureRmKey: 'terraform.tfstate'
+- script: |
+    terraform init \
+      -backend-config="storage_account_name=$(testaccountsampltf)" \
+      -backend-config="container_name=$(sampletfcontainer)" \
+      -backend-config="key=$(terraform.tfvars)" \
+      -backend-config="rg_name=$(test-rg)"
+  displayName: 'Terraform Init'
 
-- task: TerraformTask@5
-  displayName: Terraform Plan
-  inputs:
-    provider: azurerm
-    command: plan
-    workingDirectory: $(Build.SourcesDirectory)/templetes
-    environmentServiceNameAzureRM: 'new_sv_connection'
 
-- task: TerraformTask@5
-  displayName: Terraform Apply
-  inputs:
-    provider: azurerm
-    command: apply
-    workingDirectory: $(Build.SourcesDirectory)/templetes
-    environmentServiceNameAzureRM: 'new_sv_connection'
-    commandOptions: '--auto-approve'
+# Terraform destroy
+- script: terraform destroy -auto-approve
+  displayName: 'Terraform Destroy'
+
+
+#- task: TerraformTask@5
+#   displayName: Terraform Init
+#   inputs:
+#     provider: azurerm
+#     command: init
+#     commandOptions: '-reconfigure'
+#     workingDirectory: $(Build.SourcesDirectory)/templetes
+#     backendServiceArm: 'new_sv_connection'
+#     backendAzureRmResourceGroupName: 'test-rg'
+#     backendAzureRmStorageAccountName: 'testaccountsampltf'
+#     backendAzureRmContainerName: 'sampletfcontainer'
+#     backendAzureRmKey: 'terraform.tfstate'
+
+# - task: TerraformTask@5
+#   displayName: Terraform Plan
+#   inputs:
+#     provider: azurerm
+#     command: plan
+#     workingDirectory: $(Build.SourcesDirectory)/templetes
+#     environmentServiceNameAzureRM: 'new_sv_connection'
+
+# - task: TerraformTask@5
+#   displayName: Terraform Apply
+#   inputs:
+#     provider: azurerm
+#     command: apply
+#     workingDirectory: $(Build.SourcesDirectory)/templetes
+#     environmentServiceNameAzureRM: 'new_sv_connection'
+#     commandOptions: '--auto-approve'
+
