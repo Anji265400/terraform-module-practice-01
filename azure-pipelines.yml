@@ -11,11 +11,51 @@ pool:
 
 steps:
 
-# Just for testing
-- script: echo "Running on self-hosted agent"
+- checkout: self
 
-# Install Terraform first
+# Step 2: Install Terraform
 - task: TerraformInstaller@1
-  displayName: 'Install Terraform'
+  displayName: 'Install Terraform 1.14.3'
   inputs:
     terraformVersion: '1.14.3'
+
+# Terraform Init
+- task: TerraformTask@5
+  displayName: 'Terraform Init'
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    terraformVersion: '1.14.3'
+    workingDirectory: '.'  
+    backendServiceArm: 'new_sv_connection'
+    backendAzureRmResourceGroupName: 'test-rg'
+    backendAzureRmStorageAccountName: 'testaccountsampltf'
+    backendAzureRmContainerName: 'sampletfcontainer'
+    backendAzureRmKey: 'terraform.tfstate'
+
+# Terraform Plan
+- task: TerraformTask@5
+  displayName: 'Terraform Plan'
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    terraformVersion: '1.14.3'
+    workingDirectory: '.'
+    environmentServiceNameAzureRM: 'new_sv_connection'
+
+# Terraform Apply
+- task: TerraformTask@5
+  displayName: 'Terraform Apply'
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    terraformVersion: '1.14.3'
+    workingDirectory: '.'
+    environmentServiceNameAzureRM: 'new_sv_connection'
+    commandOptions: '--auto-approve'
+
+
+
+
+
+
