@@ -10,34 +10,12 @@ pool:
   name: self-hosted-pool
 
 steps:
+
+# Just for testing
 - script: echo "Running on self-hosted agent"
 
+# Install Terraform first
 - task: TerraformInstaller@1
+  displayName: 'Install Terraform'
   inputs:
     terraformVersion: '1.14.3'
-
-- task: TerraformTask@5
-  inputs:
-    provider: 'azurerm'
-    command: 'init'
-    workingDirectory: 'terraform'
-    backendServiceArm: 'BAMI_e80303b1-c1d7-492a-8c91-770746bd354e(46086b0f-6a28-44bf-a06e-e3274c0d520a)'
-    backendAzureRmResourceGroupName: 'test-rg'
-    backendAzureRmStorageAccountName: 'testaccountsampltf'
-    backendAzureRmContainerName: 'sampletfcontainer'
-    backendAzureRmKey: 'terraform.tfstate'
-
-- task: TerraformTask@5
-  inputs:
-    provider: 'azurerm'
-    command: 'plan'
-    workingDirectory: 'terraform'
-    environmentServiceNameAzureRM: 'BAMI_e80303b1-c1d7-492a-8c91-770746bd354e(46086b0f-6a28-44bf-a06e-e3274c0d520a)'
-
-- task: TerraformTask@5
-  inputs:
-    provider: 'azurerm'
-    command: 'apply'
-    workingDirectory: 'terraform'
-    environmentServiceNameAzureRM: 'BAMI_e80303b1-c1d7-492a-8c91-770746bd354e(46086b0f-6a28-44bf-a06e-e3274c0d520a)'
-    commandOptions: '--auto-approve'
