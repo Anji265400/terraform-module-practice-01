@@ -26,7 +26,7 @@ steps:
     provider: 'azurerm'
     command: 'init'
     terraformVersion: '1.14.3'
-    workingDirectory: '.'  
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
     backendServiceArm: 'new_sv_connection'
     backendAzureRmResourceGroupName: 'test-rg'
     backendAzureRmStorageAccountName: 'testaccountsampltf'
@@ -40,7 +40,7 @@ steps:
     provider: 'azurerm'
     command: 'plan'
     terraformVersion: '1.14.3'
-    workingDirectory: '.'
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
     environmentServiceNameAzureRM: 'new_sv_connection'
 
 # Terraform Apply
@@ -50,7 +50,7 @@ steps:
     provider: 'azurerm'
     command: 'apply'
     terraformVersion: '1.14.3'
-    workingDirectory: '.'
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
     environmentServiceNameAzureRM: 'new_sv_connection'
     commandOptions: '--auto-approve'
 
