@@ -21,6 +21,7 @@ steps:
   inputs:
     provider: azurerm
     command: init
+    commandOptions: '-reconfigure'
     workingDirectory: $(Build.SourcesDirectory)/templetes
     backendServiceArm: 'new_sv_connection'
     backendAzureRmResourceGroupName: 'test-rg'
