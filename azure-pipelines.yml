@@ -18,7 +18,7 @@ steps:
 
 # terraform init
 - task: TerraformTask@5
-  displayName: "Terraform Init-Dev"
+  displayName: "Terraform Init-QA"
   inputs:
     provider: azurerm
     command: init
@@ -28,12 +28,12 @@ steps:
     backendAzureRmResourceGroupName: 'test-rg'
     backendAzureRmStorageAccountName: 'testaccountsampltf'
     backendAzureRmContainerName: 'sampletfcontainer'
-    backendAzureRmKey: "Dev/terraform.tfstate"
+    backendAzureRmKey: "QA/terraform.tfstate"
 
 
 # terraform plan
 - task: TerraformTask@5
-  displayName: "Terraform Plan-Dev"
+  displayName: "Terraform Plan-QA"
   inputs:
     provider: azurerm
     command: plan
@@ -42,7 +42,7 @@ steps:
 
 # terraform apply
 - task: TerraformTask@5
-  displayName: "Terraform Apply-Dev"
+  displayName: "Terraform Apply-QA"
   inputs:
     provider: azurerm
     command: apply
