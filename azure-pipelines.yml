@@ -31,10 +31,15 @@ steps:
     backendAzureRmKey: 'terraform.tfstate'
 
 # Workspace setup
-- script: |
-    terraform workspace select dev || terraform workspace new dev
-  workingDirectory: $(Build.SourcesDirectory)/templetes
-  displayName: "Use DEV Workspace"
+- task: TerraformTask@5
+  displayName: "Select Dev Workspace"
+  inputs:
+    provider: azurerm
+    command: workspace
+    workingDirectory: $(Build.SourcesDirectory)/templetes
+    environmentServiceNameAzureRM: "new_sv_connection"
+    commandOptions: "select dev || new dev"
+
 
 # terraform plan
 - task: TerraformTask@5
