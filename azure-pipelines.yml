@@ -10,11 +10,12 @@ pool:
  name: Default
 
 steps:
-- task: TerraformInstaller@1
-  inputs:
-    terraformVersion: 'latest'
+- script: |
+    terraform version
+  displayName: "Check Terraform Version"
 
 - task: TerraformTask@5
+  displayName: "Terraform init"
   inputs:
     provider: 'azurerm'
     command: 'init'
@@ -27,12 +28,14 @@ steps:
     backendAzureRmKey: 'terraform.tfstate'
 
 - task: TerraformTask@5
+  displayName: "Terraform plan"
   inputs:
     provider: 'azurerm'
     command: 'plan'
     environmentServiceNameAzureRM: 'new_sv_connection'
 
 - task: TerraformTask@5
+  displayName: "Terraform apply"
   inputs:
     provider: 'azurerm'
     command: 'apply'
