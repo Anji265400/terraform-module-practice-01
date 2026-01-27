@@ -31,21 +31,30 @@ steps:
     backendAzureRmKey: 'terraform.tfstate'
 
 # terraform plan
-- task: TerraformTask@5
-  displayName: Terraform Plan
-  inputs:
-    provider: azurerm
-    command: plan
-    workingDirectory: $(Build.SourcesDirectory)/templetes
-    environmentServiceNameAzureRM: 'new_sv_connection'
+# - task: TerraformTask@5
+#   displayName: Terraform Plan
+#   inputs:
+#     provider: azurerm
+#     command: plan
+#     workingDirectory: $(Build.SourcesDirectory)/templetes
+#     environmentServiceNameAzureRM: 'new_sv_connection'
 
-# terraform apply
+# # terraform apply
+# - task: TerraformTask@5
+#   displayName: Terraform Apply
+#   inputs:
+#     provider: azurerm
+#     command: apply
+#     workingDirectory: $(Build.SourcesDirectory)/templetes
+#     environmentServiceNameAzureRM: 'new_sv_connection'
+#     commandOptions: '--auto-approve'
+
+
 - task: TerraformTask@5
-  displayName: Terraform Apply
+  displayName: Terraform Destroy
   inputs:
-    provider: azurerm
-    command: apply
-    workingDirectory: $(Build.SourcesDirectory)/templetes
-    environmentServiceNameAzureRM: 'new_sv_connection'
+    provider: 'azurerm'
+    command: 'destroy'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/templetes'
     commandOptions: '--auto-approve'
-
+    environmentServiceNameAzureRM: 'new_sv_connection'
