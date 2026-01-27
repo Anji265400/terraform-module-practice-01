@@ -3,73 +3,55 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-# Destroy Pipeline - Manual Trigger Only
-trigger: none  # Manual trigger to prevent accidental deletion
+trigger: 
+  - main
 
+# self hosted Linux machine
 pool:
   name: Default
 
-# Define backend variables in pipeline
-variables:
-  TF_STATE_ACCOUNT: testaccountsampltf
-  TF_STATE_CONTAINER: sampletfcontainer
-  TF_STATE_KEY: terraform.tfstate
-  TF_STATE_RG: test-rg
-
+# Verify Terraform version
 steps:
-- checkout: self
-
-# Step 1: Verify Terraform version
 - script: |
     terraform version
-  displayName: "Verify Terraform"
+    displayName: "Verify Terraform"
 
-# Step 2: Initialize Terraform backend
+# terraform init
+- task: TerraformTask@5
+  displayName: Terraform Init
+  inputs:
+    provider: azurerm
+    command: init
+    commandOptions: '-reconfigure'
+    workingDirectory: $(Build.SourcesDirectory)/templetes
+    backendServiceArm: 'new_sv_connection'
+    backendAzureRmResourceGroupName: 'test-rg'
+    backendAzureRmStorageAccountName: 'testaccountsampltf'
+    backendAzureRmContainerName: 'sampletfcontainer'
+    backendAzureRmKey: 'terraform.tfstate'
+
+# Workspace setup
 - script: |
-    cd $(Build.SourcesDirectory)/templetes
-    terraform init \
-      -backend-config="storage_account_name=$(TF_STATE_ACCOUNT)" \
-      -backend-config="container_name=$(TF_STATE_CONTAINER)" \
-      -backend-config="key=$(TF_STATE_KEY)" \
-      -backend-config="resource_group_name=$(TF_STATE_RG)"
-  displayName: "Terraform Init"
+    terraform workspace select dev || terraform workspace new dev
+  workingDirectory: $(Build.SourcesDirectory)/templetes
+  displayName: "Use DEV Workspace"
 
-# Step 3: Destroy all resources
-- script: |
-    cd $(Build.SourcesDirectory)/templetes
-    terraform destroy -var-file=terraform.tfvars -auto-approve
-  displayName: "Terraform Destroy"
+# terraform plan
+- task: TerraformTask@5
+  displayName: Terraform Plan
+  inputs:
+    provider: azurerm
+    command: plan
+    workingDirectory: $(Build.SourcesDirectory)/templetes
+    environmentServiceNameAzureRM: 'new_sv_connection'
 
-
-
-
-#- task: TerraformTask@5
-#   displayName: Terraform Init
-#   inputs:
-#     provider: azurerm
-#     command: init
-#     commandOptions: '-reconfigure'
-#     workingDirectory: $(Build.SourcesDirectory)/templetes
-#     backendServiceArm: 'new_sv_connection'
-#     backendAzureRmResourceGroupName: 'test-rg'
-#     backendAzureRmStorageAccountName: 'testaccountsampltf'
-#     backendAzureRmContainerName: 'sampletfcontainer'
-#     backendAzureRmKey: 'terraform.tfstate'
-
-# - task: TerraformTask@5
-#   displayName: Terraform Plan
-#   inputs:
-#     provider: azurerm
-#     command: plan
-#     workingDirectory: $(Build.SourcesDirectory)/templetes
-#     environmentServiceNameAzureRM: 'new_sv_connection'
-
-# - task: TerraformTask@5
-#   displayName: Terraform Apply
-#   inputs:
-#     provider: azurerm
-#     command: apply
-#     workingDirectory: $(Build.SourcesDirectory)/templetes
-#     environmentServiceNameAzureRM: 'new_sv_connection'
-#     commandOptions: '--auto-approve'
+# terraform apply
+- task: TerraformTask@5
+  displayName: Terraform Apply
+  inputs:
+    provider: azurerm
+    command: apply
+    workingDirectory: $(Build.SourcesDirectory)/templetes
+    environmentServiceNameAzureRM: 'new_sv_connection'
+    commandOptions: '--auto-approve'
 
