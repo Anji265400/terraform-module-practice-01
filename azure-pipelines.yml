@@ -3,58 +3,39 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-trigger: 
+trigger:
   - main
 
-# self hosted Linux machine
 pool:
-  name: Default
+ name: Default
 
-# Verify Terraform version
 steps:
-- script: |
-    terraform version
-  displayName: "Verify Terraform"
-
-# terraform init
-- task: TerraformTask@5
-  displayName: Terraform Init
+- task: TerraformInstaller@1
   inputs:
-    provider: azurerm
-    command: init
-    commandOptions: '-reconfigure'
-    workingDirectory: $(Build.SourcesDirectory)/templetes
+    terraformVersion: 'latest'
+
+- task: TerraformTask@5
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/templetes'
+    commandOptions: '-refresh'
     backendServiceArm: 'new_sv_connection'
     backendAzureRmResourceGroupName: 'test-rg'
     backendAzureRmStorageAccountName: 'testaccountsampltf'
     backendAzureRmContainerName: 'sampletfcontainer'
     backendAzureRmKey: 'terraform.tfstate'
 
-# terraform plan
-# - task: TerraformTask@5
-#   displayName: Terraform Plan
-#   inputs:
-#     provider: azurerm
-#     command: plan
-#     workingDirectory: $(Build.SourcesDirectory)/templetes
-#     environmentServiceNameAzureRM: 'new_sv_connection'
-
-# # terraform apply
-# - task: TerraformTask@5
-#   displayName: Terraform Apply
-#   inputs:
-#     provider: azurerm
-#     command: apply
-#     workingDirectory: $(Build.SourcesDirectory)/templetes
-#     environmentServiceNameAzureRM: 'new_sv_connection'
-#     commandOptions: '--auto-approve'
-
-
 - task: TerraformTask@5
-  displayName: Terraform Destroy
   inputs:
     provider: 'azurerm'
-    command: 'destroy'
+    command: 'plan'
+    environmentServiceNameAzureRM: 'new_sv_connection'
+
+- task: TerraformTask@5
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
     workingDirectory: '$(System.DefaultWorkingDirectory)/templetes'
     commandOptions: '--auto-approve'
     environmentServiceNameAzureRM: 'new_sv_connection'
