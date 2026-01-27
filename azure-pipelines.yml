@@ -32,13 +32,13 @@ steps:
 
 
 # terraform plan
-- task: TerraformTask@5
-  displayName: Terraform Plan
-  inputs:
-    provider: azurerm
-    command: plan
-    workingDirectory: $(Build.SourcesDirectory)/templetes
-    environmentServiceNameAzureRM: 'new_sv_connection'
+# - task: TerraformTask@5
+#   displayName: Terraform Plan
+#   inputs:
+#     provider: azurerm
+#     command: plan
+#     workingDirectory: $(Build.SourcesDirectory)/templetes
+#     environmentServiceNameAzureRM: 'new_sv_connection'
 
 # terraform apply
 # - task: TerraformTask@5
