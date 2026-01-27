@@ -28,17 +28,7 @@ steps:
     backendAzureRmResourceGroupName: 'test-rg'
     backendAzureRmStorageAccountName: 'testaccountsampltf'
     backendAzureRmContainerName: 'sampletfcontainer'
-    backendAzureRmKey: 'terraform.tfstate'
-
-# Workspace setup
-- task: TerraformTask@5
-  displayName: "Select Dev Workspace"
-  inputs:
-    provider: azurerm
-    command: workspace
-    workingDirectory: $(Build.SourcesDirectory)/templetes
-    environmentServiceNameAzureRM: "new_sv_connection"
-    commandOptions: "select dev || new dev"
+    backendAzureRmKey: "Dev/terraform.tfstate"
 
 
 # terraform plan
