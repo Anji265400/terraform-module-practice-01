@@ -31,7 +31,7 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'destroy'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/templetes'
+    workingDirectory: $(System.DefaultWorkingDirectory)/templetes
     commandOptions: '--auto-approve'
     environmentServiceNameAzureRM: 'new_sv_connection'
 
