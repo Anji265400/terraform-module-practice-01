@@ -20,7 +20,6 @@ steps:
     provider: 'azurerm'
     command: 'init'
     workingDirectory: '$(System.DefaultWorkingDirectory)/templetes'
-    commandOptions: '-refresh'
     backendServiceArm: 'new_sv_connection'
     backendAzureRmResourceGroupName: 'test-rg'
     backendAzureRmStorageAccountName: 'testaccountsampltf'
