@@ -27,10 +27,10 @@ steps:
     backendAzureRmKey: 'terraform.tfstate'
 
 - task: TerraformTask@5
-  displayName: "Terraform plan"
   inputs:
     provider: 'azurerm'
     command: 'plan'
+    workingDirectory: $(System.DefaultWorkingDirectory)/templetes
     environmentServiceNameAzureRM: 'new_sv_connection'
 
 - task: TerraformTask@5
