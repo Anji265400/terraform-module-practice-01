@@ -18,7 +18,7 @@ steps:
 
 # terraform init
 - task: TerraformTask@5
-  displayName: Terraform Init
+  displayName: "Terraform Init-Dev"
   inputs:
     provider: azurerm
     command: init
@@ -43,7 +43,7 @@ steps:
 
 # terraform plan
 - task: TerraformTask@5
-  displayName: Terraform Plan
+  displayName: "Terraform Plan-Dev"
   inputs:
     provider: azurerm
     command: plan
@@ -52,7 +52,7 @@ steps:
 
 # terraform apply
 - task: TerraformTask@5
-  displayName: Terraform Apply
+  displayName: "Terraform Apply-Dev"
   inputs:
     provider: azurerm
     command: apply
