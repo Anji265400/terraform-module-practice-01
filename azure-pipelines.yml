@@ -19,7 +19,7 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'init'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/templetes'
+    workingDirectory: $(System.DefaultWorkingDirectory)/templetes
     backendServiceArm: 'new_sv_connection'
     backendAzureRmResourceGroupName: 'test-rg'
     backendAzureRmStorageAccountName: 'testaccountsampltf'
@@ -38,6 +38,6 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'apply'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/templetes'
+    workingDirectory: $(System.DefaultWorkingDirectory)/templetes
     commandOptions: '--auto-approve'
     environmentServiceNameAzureRM: 'new_sv_connection'
