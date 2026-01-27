@@ -18,7 +18,7 @@ steps:
 
 # terraform init
 - task: TerraformTask@5
-  displayName: "Terraform Init-QA"
+  displayName: Terraform Init
   inputs:
     provider: azurerm
     command: init
@@ -28,12 +28,12 @@ steps:
     backendAzureRmResourceGroupName: 'test-rg'
     backendAzureRmStorageAccountName: 'testaccountsampltf'
     backendAzureRmContainerName: 'sampletfcontainer'
-    backendAzureRmKey: "QA/terraform.tfstate"
+    backendAzureRmKey: 'terraform.tfstate'
 
 
 # terraform plan
 - task: TerraformTask@5
-  displayName: "Terraform Plan-QA"
+  displayName: Terraform Plan
   inputs:
     provider: azurerm
     command: plan
@@ -41,12 +41,20 @@ steps:
     environmentServiceNameAzureRM: 'new_sv_connection'
 
 # terraform apply
+# - task: TerraformTask@5
+#   displayName: Terraform Apply
+#   inputs:
+#     provider: azurerm
+#     command: apply
+#     workingDirectory: $(Build.SourcesDirectory)/templetes
+#     environmentServiceNameAzureRM: 'new_sv_connection'
+#     commandOptions: '--auto-approve'
+
 - task: TerraformTask@5
-  displayName: "Terraform Apply-QA"
   inputs:
-    provider: azurerm
-    command: apply
-    workingDirectory: $(Build.SourcesDirectory)/templetes
-    environmentServiceNameAzureRM: 'new_sv_connection'
+    provider: 'azurerm'
+    command: 'destroy'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/templetes'
     commandOptions: '--auto-approve'
+    environmentServiceNameAzureRM: 'new_sv_connection'
 
