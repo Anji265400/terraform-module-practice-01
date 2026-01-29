@@ -54,11 +54,11 @@ steps:
     workingDirectory: '$(terraformDir)'
     environmentServiceNameAzureRM: 'new_sv_connection'
 
-- task: TerraformTask@5
-  displayName: "Terraform apply"
-  inputs:
-    provider: 'azurerm'
-    command: 'apply'
-    workingDirectory: '$(terraformDir)'
-    commandOptions: '--auto-approve'
-    environmentServiceNameAzureRM: 'new_sv_connection'
+# - task: TerraformTask@5
+#   displayName: "Terraform apply"
+#   inputs:
+#     provider: 'azurerm'
+#     command: 'apply'
+#     workingDirectory: '$(terraformDir)'
+#     commandOptions: '--auto-approve'
+#     environmentServiceNameAzureRM: 'new_sv_connection'
