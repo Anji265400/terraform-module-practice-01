@@ -7,9 +7,10 @@ trigger:
   - main
 
 pool:
- name: Default
+ name: Default    #self hosted vm name
 
 variables:
+  terraformDir: '$(System.DefaultWorkingDirectory)/templetes'
   workspace: Prod
 
 steps:
@@ -23,41 +24,41 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'init'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/templetes'
+    workingDirectory: '$(terraformDir)'
     backendServiceArm: 'new_sv_connection'
     backendAzureRmResourceGroupName: 'test-rg'
     backendAzureRmStorageAccountName: 'testaccountsampltf'
     backendAzureRmContainerName: 'sampletfcontainer'
-    backendAzureRmKey: '$(workspace).terraform.tfstate'
+    backendAzureRmKey: terraform.tfstate'
 
 - script: |
     terraform workspace select $(workspace) || terraform workspace new $(workspace)
-  workingDirectory: '$(System.DefaultWorkingDirectory)/templetes'
+  workingDirectory: '$(terraformDir)'
   displayName: 'Terraform Workspace'
 
 
-# - task: TerraformTask@5
-#   displayName: "Terraform Destroy"
-#   inputs:
-#     provider: 'azurerm'
-#     command: 'destroy'
-#     workingDirectory: '$(System.DefaultWorkingDirectory)/templetes'
-#     commandOptions: '--auto-approve'
-#     environmentServiceNameAzureRM: 'new_sv_connection'
-
 - task: TerraformTask@5
-  displayName: "Terraform Plan"
+  displayName: "Terraform Destroy"
   inputs:
     provider: 'azurerm'
-    command: 'plan'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/templetes'
-    environmentServiceNameAzureRM: 'new_sv_connection'
-
-- task: TerraformTask@5
-  displayName: "Terraform apply"
-  inputs:
-    provider: 'azurerm'
-    command: 'apply'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/templetes'
+    command: 'destroy'
+    workingDirectory: '$(terraformDir)'
     commandOptions: '--auto-approve'
     environmentServiceNameAzureRM: 'new_sv_connection'
+
+# - task: TerraformTask@5
+#   displayName: "Terraform Plan"
+#   inputs:
+#     provider: 'azurerm'
+#     command: 'plan'
+#     workingDirectory: '$(terraformDir)'
+#     environmentServiceNameAzureRM: 'new_sv_connection'
+
+# - task: TerraformTask@5
+#   displayName: "Terraform apply"
+#   inputs:
+#     provider: 'azurerm'
+#     command: 'apply'
+#     workingDirectory: '$(terraformDir)'
+#     commandOptions: '--auto-approve'
+#     environmentServiceNameAzureRM: 'new_sv_connection'
