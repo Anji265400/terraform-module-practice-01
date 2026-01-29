@@ -29,7 +29,7 @@ steps:
     backendAzureRmResourceGroupName: 'test-rg'
     backendAzureRmStorageAccountName: 'testaccountsampltf'
     backendAzureRmContainerName: 'sampletfcontainer'
-    backendAzureRmKey: terraform.tfstate'
+    backendAzureRmKey: 'terraform.tfstate'
 
 - script: |
     terraform workspace select $(workspace) || terraform workspace new $(workspace)
