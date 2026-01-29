@@ -11,7 +11,7 @@ pool:
 
 variables:
   terraformDir: '$(System.DefaultWorkingDirectory)/templetes'
-  workspace: QA
+  workspace: Dev
 
 steps:
 - script: |
