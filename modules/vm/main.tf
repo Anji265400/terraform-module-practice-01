@@ -25,9 +25,14 @@ resource "azurerm_network_interface" "main" {
   }
 }
 
+locals {
+zones = ["1", "2", "3"]
+}
+
 
 resource "azurerm_virtual_machine" "main" {
-  name                  = var.vm_name
+  count                 = 2
+  name                  = "${var.vm_name}-VM-${count.index + 1}"
   location              = var.location
   resource_group_name   = var.rg_name
   network_interface_ids = [azurerm_network_interface.main.id]
@@ -37,6 +42,9 @@ resource "azurerm_virtual_machine" "main" {
 
   # Uncomment this line to delete the data disks automatically when deleting the VM
   delete_data_disks_on_termination = true
+
+  zones = [element(local.zones, count.index % length(local.zones))]
+
 
   storage_image_reference {
     publisher = "Canonical"
