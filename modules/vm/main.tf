@@ -13,12 +13,13 @@ provider "azurerm" {
 }
 
 resource "azurerm_network_interface" "main" {
-  name                = var.nic_name
+  count               = 2
+  name                = "$[var.nic_name]-${count.index + 1}"
   location            = var.location
   resource_group_name = var.rg_name
 
   ip_configuration {
-    name                          = "testconfiguration1"
+    name                          = "testconfiguration1${count.index + 1}"
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = var.public_ip_id
@@ -53,13 +54,13 @@ resource "azurerm_virtual_machine" "main" {
     version   = "latest"
   }
   storage_os_disk {
-    name              = "myosdisk1"
+    name              = "myosdisk1${count.index + 1}"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
   }
   os_profile {
-    computer_name  = var.computer_name
+    computer_name  = "$[var.computer_name]-${count.index + 1}"
     admin_username = data.azurerm_key_vault_secret.example.value
     admin_password = data.azurerm_key_vault_secret.example1.value
   }

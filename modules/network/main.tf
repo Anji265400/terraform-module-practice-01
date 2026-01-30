@@ -33,7 +33,8 @@ resource "azurerm_network_security_group" "example" {
 }
 
 resource "azurerm_public_ip" "example" {
-  name                = "acceptanceTestPublicIp1"
+  count               = 2
+  name                = "acceptanceTestPublicIp1${count.index + 1}"
   resource_group_name = var.rg_name
   location            = var.location
   allocation_method   = "Static"
