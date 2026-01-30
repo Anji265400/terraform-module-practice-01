@@ -1,6 +1,6 @@
 subscription_id = "46086b0f-6a28-44bf-a06e-e3274c0d520a"
 rg_name         = "test_rg1"
-location        = "eastus"
+location        = "eastus2"
 vm_name         = "test_vm"
 v-net_name      = "test_vnet"
 subnet_name     = "test_subnet"
