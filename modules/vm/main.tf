@@ -22,7 +22,7 @@ resource "azurerm_network_interface" "main" {
     name                          = "testconfiguration1${count.index + 1}"
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = "$[var.public_ip_id]-${count.index}"
+    public_ip_address_id          = var.public_ip_id[count.index]
   }
 }
 
