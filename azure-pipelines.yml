@@ -3,11 +3,12 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
+
 trigger:
   - main
 
 pool:
- name: Default    #self hosted vm name
+  name: Default    #self hosted vm name
 
 variables:
   terraformDir: '$(System.DefaultWorkingDirectory)/templetes'
@@ -37,28 +38,28 @@ steps:
   displayName: 'Terraform Workspace'
 
 
-- task: TerraformTask@5
-  displayName: "Terraform Destroy"
-  inputs:
-    provider: 'azurerm'
-    command: 'destroy'
-    workingDirectory: '$(terraformDir)'
-    commandOptions: '--auto-approve'
-    environmentServiceNameAzureRM: 'new_sv_connection'
-
 # - task: TerraformTask@5
-#   displayName: "Terraform Plan"
+#   displayName: "Terraform Destroy"
 #   inputs:
 #     provider: 'azurerm'
-#     command: 'plan'
-#     workingDirectory: '$(terraformDir)'
-#     environmentServiceNameAzureRM: 'new_sv_connection'
-
-# - task: TerraformTask@5
-#   displayName: "Terraform apply"
-#   inputs:
-#     provider: 'azurerm'
-#     command: 'apply'
+#     command: 'destroy'
 #     workingDirectory: '$(terraformDir)'
 #     commandOptions: '--auto-approve'
 #     environmentServiceNameAzureRM: 'new_sv_connection'
+
+- task: TerraformTask@5
+  displayName: "Terraform Plan"
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    workingDirectory: '$(terraformDir)'
+    environmentServiceNameAzureRM: 'new_sv_connection'
+
+- task: TerraformTask@5
+  displayName: "Terraform apply"
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    workingDirectory: '$(terraformDir)'
+    commandOptions: '--auto-approve'
+    environmentServiceNameAzureRM: 'new_sv_connection'
