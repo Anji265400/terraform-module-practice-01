@@ -22,7 +22,7 @@ resource "azurerm_network_interface" "main" {
     name                          = "testconfiguration1${count.index + 1}"
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = var.public_ip_id
+    public_ip_address_id          = "$[var.public_ip_id]-${count.index}"
   }
 }
 
@@ -36,7 +36,7 @@ resource "azurerm_virtual_machine" "main" {
   name                  = "${var.vm_name}-VM-${count.index + 1}"
   location              = var.location
   resource_group_name   = var.rg_name
-  network_interface_ids = [azurerm_network_interface.main.id]
+  network_interface_ids = [azurerm_network_interface.main[count.index].id]
   vm_size               = "Standard_B2s"
   # Uncomment this line to delete the OS disk automatically when deleting the VM
   delete_os_disk_on_termination = true

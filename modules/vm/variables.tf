@@ -33,7 +33,7 @@ variable "subnet_id" {
 }
 
 variable "public_ip_id" {
-  type        = string
+  type        = list(string)
   description = "Public IP ID from network module"
 }
 
