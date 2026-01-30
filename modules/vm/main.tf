@@ -14,7 +14,7 @@ provider "azurerm" {
 
 resource "azurerm_network_interface" "main" {
   count               = 2
-  name                = "$[var.nic_name]-${count.index + 1}"
+  name                = "${var.nic_name}-${count.index + 1}"
   location            = var.location
   resource_group_name = var.rg_name
 
@@ -60,7 +60,7 @@ resource "azurerm_virtual_machine" "main" {
     managed_disk_type = "Standard_LRS"
   }
   os_profile {
-    computer_name  = "$[var.computer_name]-${count.index + 1}"
+    computer_name  = "${var.computer_name}-${count.index + 1}"
     admin_username = data.azurerm_key_vault_secret.example.value
     admin_password = data.azurerm_key_vault_secret.example1.value
   }
